@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# примерное значение интеграла: 2.45673939721751
+
 def f(x):
     return np.arcsin(np.sqrt(x / (1+x)))  # функция описывающая подинтегральное выражение
 
@@ -8,52 +10,52 @@ def trapez_rule(f, a, b, n):  # метод трапеций
     h = (b - a) / n  # шаг
     x = np.linspace(a, b, n+1)  # массив значений x
     y = f(x)  # массив значений y
-    integral = h * (0.5*y[0] + np.sum(y[1:-1]) + 0.5*y[-1])  # вычисляем интеграл
-    return integral  # возвращаем значение интеграла
+    I = h * (0.5*y[0] + np.sum(y[1:-1]) + 0.5*y[-1])  # вычисляем интеграл
+    return I  # возвращаем значение интеграла
 
 def adaptive_trapez(f,a,b,e):
     n = 1  # начально число подинтервалов
-    integral = trapez_rule(f, a, b, n)  # вычисляем интеграл
+    I = trapez_rule(f, a, b, n)  # вычисляем интеграл
     while True:  # эмулируем цикл do-while
         n *= 2  # увеличиваем количество разбиений вдвое
-        integral_new = trapez_rule(f, a, b, n)  # вычисляем новый интеграл
-        if abs(integral_new - integral) < e:  # если разница между новым и старым интегралом меньше точности
-            return integral_new  # возвращаем новый интеграл
-        integral = integral_new  # если разница больше - обновляем старый интеграл
+        I_new = trapez_rule(f, a, b, n)  # вычисляем новый интеграл
+        if abs(I_new - I) < e:  # если разница между новым и старым интегралом меньше точности
+            return I_new  # возвращаем новый интеграл
+        I = I_new  # если разница больше - обновляем старый интеграл
 
 def rectangle_rule(f, a, b, n):  # метод прямоугольников
     h = (b - a) / n  # шаг
     x = np.linspace(a, b, n+1)  # массив значений x
     y = f(x)  # массив значений y
-    integral = h * np.sum(y[:-1])  # вычисляем интеграл
-    return integral  # возвращаем значение интеграла
+    I = h * np.sum(y[:-1])  # вычисляем интеграл
+    return I  # возвращаем значение интеграла
 
 def adaptive_rectangle(f, a, b, e):  # адаптивный метод прямоугольников
     n = 1  # начально число подинтервалов
-    integral = rectangle_rule(f, a, b, n)  # вычисляем интеграл
+    I = rectangle_rule(f, a, b, n)  # вычисляем интеграл
     while True:  # эмулируем цикл do-while
         n *= 2  # увеличиваем количество разбиений вдвое
-        integral_new = rectangle_rule(f, a, b, n)  # вычисляем новый интеграл
-        if abs(integral_new - integral) < e:  # если разница между новым и старым интегралом меньше точности
-            return integral_new  # возвращаем новый интеграл
-        integral = integral_new  # если разница больше - обновляем старый интеграл
+        I_new = rectangle_rule(f, a, b, n)  # вычисляем новый интеграл
+        if abs(I_new - I) < e:  # если разница между новым и старым интегралом меньше точности
+            return I_new  # возвращаем новый интеграл
+        I = I_new  # если разница больше - обновляем старый интеграл
 
 def simpson_rule(f, a, b, n):  # метод Симпсона
     h = (b - a) / n  # шаг
     x = np.linspace(a, b, n+1)  # массив значений x
     y = f(x)  # массив значений y
-    integral = h / 3 * (y[0] + 2*np.sum(y[2:-1:2]) + 4*np.sum(y[1:-1:2]) + y[-1])  # вычисляем интеграл
-    return integral  # возвращаем значение интеграла
+    I = h / 3 * (y[0] + 2*np.sum(y[2:-1:2]) + 4*np.sum(y[1:-1:2]) + y[-1])  # вычисляем интеграл
+    return I  # возвращаем значение интеграла
 
 def adaptive_simpson(f, a, b, e):  # адаптивный метод Симпсона
     n = 2  # начальное число подинтервалов
-    integral = simpson_rule(f, a, b, n)  # вычисляем интеграл
+    I = simpson_rule(f, a, b, n)  # вычисляем интеграл
     while True:  # эмулируем цикл do-while
         n *= 2  # увеличиваем количество разбиений вдвое
-        integral_new = simpson_rule(f, a, b, n)  # вычисляем новый интеграл
-        if abs(integral_new - integral) < e:  # если разница между новым и старым интегралом меньше точности
-            return integral_new  # возвращаем новый интеграл
-        integral = integral_new  # если разница больше - обновляем старый интеграл
+        I_new = simpson_rule(f, a, b, n)  # вычисляем новый интеграл
+        if abs(I_new - I) < e:  # если разница между новым и старым интегралом меньше точности
+            return I_new  # возвращаем новый интеграл
+        I = I_new  # если разница больше - обновляем старый интеграл
 
 def bld():  # строим график функции
     x = np.linspace(0, 3, 1000)  # массив значений x
